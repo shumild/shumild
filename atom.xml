@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://shumild.github.io</id>
     <title>shumild</title>
-    <updated>2022-01-23T16:00:38.743Z</updated>
+    <updated>2022-01-23T17:55:17.179Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://shumild.github.io"/>
     <link rel="self" href="https://shumild.github.io/atom.xml"/>
@@ -73,14 +73,14 @@
     console.log(res)//这里的res是服务器返回的数据
 })
 </code></pre>
-<p><img src="https://shumild.github.io/post-images/1642951861423.png" alt="" loading="lazy">C:\Users\shumild\AppData\Roaming\Typora\typora-user-images\image-20220114225642450.png)</p>
+<figure data-type="image" tabindex="1"><img src="https://shumild.github.io/post-images/1642951861423.png" alt="" loading="lazy"></figure>
 <h2 id="get发起带参数的请求">$.get()发起带参数的请求</h2>
 <p>使用<code>$.get()</code>函数发起带参数的请求时，示例代码如下：</p>
 <pre><code class="language-javascript">$.get('http://www.liulongbin.top:3006/api/getbooks',{id:1},function(res){
     console.log(res)
 })
 </code></pre>
-<figure data-type="image" tabindex="1"><img src="https://shumild.github.io/post-images/1642951912044.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://shumild.github.io/post-images/1642951912044.png" alt="" loading="lazy"></figure>
 <h2 id="post函数的语法">$.post()函数的语法</h2>
 <p>jQuery中<code>$.post()</code>函数功能单一，专门用来发起post请求，从而向服务器提交数据。</p>
 <p>$.post()函数的语法如下：</p>
@@ -125,7 +125,7 @@
     console.log(res)
 })
 </code></pre>
-<figure data-type="image" tabindex="2"><img src="https://shumild.github.io/post-images/1642952086210.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://shumild.github.io/post-images/1642952086210.png" alt="" loading="lazy"></figure>
 <h2 id="ajax函数的语法">$.ajax()函数的语法</h2>
 <p>相比于<code>$.get()</code>和<code>$.post()</code>函数，jQuery中提供的<code>$.ajax()</code>函数，是一个功能比较综合的函数，它允许我们对Ajax请求进行更详细的配置。</p>
 <p>$.ajax()函数配置基本语法如下：</p>
@@ -147,7 +147,7 @@
     } 
 })
 </code></pre>
-<figure data-type="image" tabindex="3"><img src="https://shumild.github.io/post-images/1642952132798.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://shumild.github.io/post-images/1642952132798.png" alt="" loading="lazy"></figure>
 <h2 id="使用ajax发起post请求">使用$.ajax()发起POST请求</h2>
 <p>使用<code>$.ajax()</code>发起POST请求时，只需将<strong>type属性</strong>的值设置为 ‘ <strong>POST</strong> ’ 即可：</p>
 <pre><code class="language-javascript">$.ajax({
@@ -163,7 +163,7 @@
     }
 })
 </code></pre>
-<figure data-type="image" tabindex="4"><img src="https://shumild.github.io/post-images/1642952152789.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://shumild.github.io/post-images/1642952152789.png" alt="" loading="lazy"></figure>
 <h1 id="接口">接口</h1>
 <h2 id="接口的概念">接口的概念</h2>
 <p>使用Ajax请求数据时，被请求的URL地址，就叫做数据接口（简称接口）。同时，每个接口必须有请求方式。</p>
@@ -176,9 +176,9 @@
 </blockquote>
 <h2 id="分析接口的请求过程">分析接口的请求过程</h2>
 <h3 id="1通过get方式请求接口的过程">1.通过GET方式请求接口的过程</h3>
-<figure data-type="image" tabindex="5"><img src="https://shumild.github.io/post-images/1642952219056.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://shumild.github.io/post-images/1642952219056.png" alt="" loading="lazy"></figure>
 <h3 id="2通过post方式请求接口的过程">2.通过POST方式请求接口的过程</h3>
-<figure data-type="image" tabindex="6"><img src="C:%5CUsers%5Cshumild%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220115003959960.png" alt="image-20220115003959960" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://shumild.github.io/post-images/1642955048190.png" alt="" loading="lazy"></figure>
 <h2 id="接口测试工具">接口测试工具</h2>
 <h3 id="1什么是接口测试工具">1.什么是接口测试工具</h3>
 <p>为了验证接口能否被正常访问，我们常常需要使用接口测试工具，来对数据接口进行检测。</p>
@@ -187,7 +187,7 @@
 <p>访问PostMan的官方下载网址https://www.getpostman.com/downloads/，下载所需的安装程序后，直接安装即可。</p>
 <h3 id="3了解postman界面的组成部分">3.了解PostMan界面的组成部分</h3>
 <p>PostMan界面的组成部分，从上到下，从左到右，分别是：</p>
-<figure data-type="image" tabindex="7"><img src="https://shumild.github.io/post-images/1642952239618.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://shumild.github.io/post-images/1642952239618.png" alt="" loading="lazy"></figure>
 <h3 id="4使用postman测试get接口">4.使用PostMan测试GET接口</h3>
 <p>步骤：</p>
 <ol>
@@ -197,7 +197,7 @@
 <li>点击Send按钮发起GET请求</li>
 <li>查看服务器响应的结果</li>
 </ol>
-<figure data-type="image" tabindex="8"><img src="https://shumild.github.io/post-images/1642952256470.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://shumild.github.io/post-images/1642952256470.png" alt="" loading="lazy"></figure>
 <h3 id="5使用postman测试post接口">5.使用PostMan测试POST接口</h3>
 <p>步骤：</p>
 <ol>
@@ -208,7 +208,7 @@
 <li>点击Send按钮发起POST请求</li>
 <li>查看服务器响应的结果</li>
 </ol>
-<figure data-type="image" tabindex="9"><img src="https://shumild.github.io/post-images/1642952273759.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://shumild.github.io/post-images/1642952273759.png" alt="" loading="lazy"></figure>
 <h2 id="接口文档">接口文档</h2>
 <h3 id="1什么是接口文档">1.什么是接口文档</h3>
 <p>接口文档，顾名思义就是<strong>接口的说明文档</strong>，它是我们<strong>调用接口的依据</strong>。好的接口文档包含了对<strong>接口URL</strong>，<strong>参数</strong>以及<strong>输出内容</strong>的说明，我们参照接口文档就能方便的知道接口的作用，如何进行调用。</p>
@@ -223,8 +223,8 @@
 <li>返回示例（可选）：通过对象的形式，列举服务器返回数据的结构。</li>
 </ol>
 <h3 id="3接口文档示例">3.接口文档示例</h3>
-<figure data-type="image" tabindex="10"><img src="https://shumild.github.io/post-images/1642952299072.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="11"><img src="https://shumild.github.io/post-images/1642952315461.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://shumild.github.io/post-images/1642952299072.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="12"><img src="https://shumild.github.io/post-images/1642952315461.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
