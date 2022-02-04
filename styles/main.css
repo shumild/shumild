@@ -36,6 +36,11 @@ body {
   background: #f3f3f3;
   box-shadow: 1px 1px 2px #cfcfcf, -1px -1px 2px #ffffff;
 }
+.leetcodeImg {
+  width: 18.79px;
+  height: 17.78px;
+  filter: grayscale(100%);
+}
 /*! modern-normalize | MIT License | https://github.com/sindresorhus/modern-normalize */
 /* Document
    ========================================================================== */

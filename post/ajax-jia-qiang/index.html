@@ -1,0 +1,856 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ajax加强 | shumild</title>
+<link rel="shortcut icon" href="https://shumild.github.io/favicon.ico?v=1643982253384">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://shumild.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Ajax加强 | shumild - Atom Feed" href="https://shumild.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="XMLHttpRequest 的基本使用
+什么是 XMLHttpRequest
+XMLHttpRequest（简称xhr）是浏览器提供的JavaScript对象，通过它，可以请求服务器上的数据资源。
+jQuery中的Ajax函数，就是基于x..." />
+    <meta name="keywords" content="jQuery,Ajax" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://shumild.github.io">
+  <img class="avatar" src="https://shumild.github.io/images/avatar.png?v=1643982253384" alt="">
+  </a>
+
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://shumild.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/shumild" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+        <a href="https://leetcode-cn.com/u/shumild/" target="_blank">
+          <i class="ri-leetcode-line"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+<script>
+  let x = document.getElementsByClassName("ri-leetcode-line");
+  x[0].innerHTML = '<img src="https://leetcode-cn.com/favicon.ico" class="leetcodeImg" >'
+</script>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Ajax加强
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-01-20
+              </span>
+              <span>
+                19 min read
+              </span>
+              
+                <a href="https://shumild.github.io/jquery/" class="post-tag">
+                  # jQuery
+                </a>
+              
+                <a href="https://shumild.github.io/VOCNubqIS/" class="post-tag">
+                  # Ajax
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="xmlhttprequest-的基本使用">XMLHttpRequest 的基本使用</h1>
+<h2 id="什么是-xmlhttprequest">什么是 XMLHttpRequest</h2>
+<p>XMLHttpRequest（简称xhr）是浏览器提供的JavaScript对象，通过它，可以请求服务器上的数据资源。</p>
+<p>jQuery中的Ajax函数，就是基于xhr对象封装出来的。</p>
+<h2 id="使用xhr发起get请求">使用xhr发起GET请求</h2>
+<ol>
+<li>创建<code>xhr</code>对象</li>
+<li>调用<code>xhr.open()</code>函数</li>
+<li>调用<code>xhr.send()</code>函数</li>
+<li>监听<code>xhr.onreadystatechange</code>事件</li>
+</ol>
+<pre><code class="language-javascript">//1. 创建xhr对象 
+var xhr = newXMLHttpRequest()
+//2. 调用xhr.open()函数
+xhr.open('GET','http://www.liulongbin.top:3006/api/getbooks')
+//3. 调用xhr.send()函数
+xhr.send()
+//4. 监听xhr.onreadystatechange事件
+xhr.onreadystatechange = function(){
+    //4.1 监听xhr对象的请求状态 readyState;与服务器响应状态 status
+    if(xhr.readyState === 4 &amp;&amp; xhr.status === 200){
+        //4.2 打印服务器响应回来的数据
+        console.log(xhr.respanseText)
+    }
+}
+</code></pre>
+<h2 id="了解xhr对象的readystate属性">了解xhr对象的readyState属性</h2>
+<p>XMLHttpRequest 对象的readyState属性，用来表示<strong>当前Ajax请求所处的状态</strong>。每个Ajax请求必然处于以下状态中的一个：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>状态</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>UNSENT</td>
+<td>XMLHttpRequest对象已被创建，但尚未调用open方法。</td>
+</tr>
+<tr>
+<td>1</td>
+<td>OPENED</td>
+<td>open()方法已经被调用。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>HEADERS_RECEIVED</td>
+<td>send()方法已经被调用，响应头也已经被接收。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LOADING</td>
+<td>数据接收中，此时response属性中已经包含部分数据。</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>DONE</strong></td>
+<td><strong>Ajax请求完成</strong>，这意味着数据传输已经彻底<strong>完成</strong>或<strong>失败</strong>。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="使用xhr发起带参数的get请求">使用xhr发起带参数的GET请求</h2>
+<p>使用xhr对象发起带参数的GET请求时，只需在调用xhr.open期间，为URL地址指定参数即可：</p>
+<pre><code class="language-javascript">//...
+xhr.open('GET','http://www.liulongbin.top:3006/api/getbooks?id=1')
+//...
+</code></pre>
+<p>这种在URL地址后面拼接的参数，叫做<strong>查询字符串</strong>。</p>
+<h2 id="查询字符串">查询字符串</h2>
+<h3 id="什么是查询字符串">什么是查询字符串</h3>
+<p>定义：查询字符串（URL参数）是指在 URL 的末尾加上用于向服务器发送信息的字符串（变量）。</p>
+<p>格式：将英文的 <code>?</code> 放在URL的末尾，再加上 <code>参数=值</code>，想加上多个参数的话，使用 <code>&amp;</code> 符号进行分隔。以这个形式，可以将想要发送给服务器的数据添加到 URL 中。</p>
+<pre><code class="language-javascript">//不带参数的URL地址
+http://www.liulongbin.top:3006/api/getbooks?
+//带有一个参数的URL地址
+http://www.liulongbin.top:3006/api/getbooks?id=1
+//带有两个参数的URL地址
+http://www.liulongbin.top:3006/api/getbooks?id=1&amp;bookname=西游记
+</code></pre>
+<h3 id="get请求携带参数的本质">GET请求携带参数的本质</h3>
+<p>无论使用<code>$.ajax()</code>,还是使用<code>$.get()</code>,又或者直接使用 xhr 对象发起 GET 请求，当需要携带参数的时候，本质上，都是直接将参数以查询字符串的形式，追加到 URL 地址的后面，发送到服务器的。</p>
+<pre><code class="language-javascript">$.get('url',{name:'zs',age:20},function(){})
+//等价于
+$.get('url?name=zs&amp;age=20',function(){})
+
+$.ajax({method:'GET',url:'url',data:{name:'zs',age:20},function(){} })
+//等价于
+$.ajax({method:'GET',url:'url?name=zs&amp;age=20',function(){} })
+</code></pre>
+<h2 id="url编码与解码">URL编码与解码</h2>
+<h3 id="什么是url编码">什么是URL编码</h3>
+<p>URL地址中，只允许出现英文相关的字母、标点符号、数字，因此，在URL地址中不允许出现中文字符。</p>
+<p>如果URL中需要包含中文这样的字符，则必须对中文字符进行<strong>编码</strong>（转义）。</p>
+<p><strong>URL编码的原则</strong>：使用安全的字符（没有特殊用途或者特殊意义的可以打印字符）去表示那些不安全的字符。</p>
+<p>URL编码原则的通俗理解：使用<strong>英文字符</strong>去表示<strong>非英文字符</strong>。</p>
+<pre><code class="language-javascript">http://www.liulongbin.top:3006/api/getbooks?id=1&amp;bookname=西游记
+//经过URL编码之后，URL地址变成了如下格式：
+http://www.liulongbin.top:3006/api/getbooks?id=1&amp;bookname=%E8%A5%BF%E6%B8%B8%E8%AE%B0
+//西        游        记
+//%E8%A5%BF %E6%B8%B8 %E8%AE%B0
+</code></pre>
+<h3 id="如何对url进行编码与解码">如何对URL进行编码与解码</h3>
+<p>浏览器提供了 URL 编码与解码的 API，分别是：</p>
+<ul>
+<li><code>encodeURL()</code> 编码的函数</li>
+<li><code>decodeURL()</code> 编码的函数</li>
+</ul>
+<pre><code class="language-javascript">encodeURL('扣一送地狱火')
+// 输出字符串 %E6%89%A3%E4%B8%80%E9%80%81%E5%9C%B0%E7%8B%B1%E7%81%AB
+decodeURL('%E6%89%A3%E4%B8%80')
+// 输出字符串 扣一
+</code></pre>
+<blockquote>
+<p>注意：每三组<code>%</code>组成一个中文字符串</p>
+</blockquote>
+<h3 id="url编码的注意事项">URL编码的注意事项</h3>
+<p>由于浏览器会自动对URL地址进行编码操作，因此大多数情况下，程序员不需要关心URL地址的编码与解码操作。</p>
+<h2 id="使用xhr发起post请求">使用xhr发起POST请求</h2>
+<p>步骤：</p>
+<ol>
+<li>创建xhr对象</li>
+<li>调用<code>xhr.open()</code> 函数</li>
+<li><strong>设置<code>Content-Type</code> 属性</strong>（固定写法）</li>
+<li>调用<code>xhr.send()</code>属性，<strong>同时指定要发送的数据</strong></li>
+<li>监听<code>xhr.onreadystatechange</code> 事件</li>
+</ol>
+<pre><code class="language-javascript">//1. 创建xhr对象 
+var xhr = newXMLHttpRequest()
+//2. 调用xhr.open()函数
+xhr.open('POST','http://www.liulongbin.top:3006/api/addbook')
+//3. 设置Content-Type属性（固定写法）
+xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+//4. 调用xhr.send()函数，同时将数据以查询字符串的方式，提交给服务器
+xhr.send('bookname=水浒传&amp;author=施耐庵&amp;publisher=天津图书出版社')
+//5. 监听xhr.onreadystatechange事件
+xhr.onreadystatechange = function(){
+    //5.1 监听xhr对象的请求状态 readyState;与服务器响应状态 status
+    if(xhr.readyState === 4 &amp;&amp; xhr.status === 200){
+        //5.2 打印服务器响应回来的数据
+        console.log(xhr.respanseText)
+    }
+}
+</code></pre>
+<h1 id="数据交换格式">数据交换格式</h1>
+<h2 id="什么是数据交换格式">什么是数据交换格式</h2>
+<p>数据交换格式，就是<strong>服务器端</strong>与<strong>客户端</strong>之间进行<strong>数据传输与交换的格式</strong>。</p>
+<p>前端邻域，经常提及的两种数据交换格式分别是 <strong>XML</strong> 和 JSON 。其中 XML 用的非常少，故重点学习 JSON 数据交换格式。</p>
+<h2 id="xml">XML</h2>
+<h3 id="什么是-xml">什么是 XML</h3>
+<p>XML 的英文全称是 E<strong>X</strong>tensible <strong>M</strong>arkup <strong>L</strong>anguage，即可拓展标记语言。因此，XML 和 HTML 类似，也是一种标记语言。</p>
+<p>HTML：</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Document&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>XML：</p>
+<pre><code class="language-xml">&lt;node&gt;
+	&lt;to&gt;ls&lt;/to&gt;
+    &lt;form&gt;zs&lt;/form&gt;
+    &lt;heading&gt;通知&lt;/heading&gt;
+    &lt;body&gt;晚上开会&lt;/body&gt;
+&lt;/node&gt;
+</code></pre>
+<h3 id="xml-和-html-的区别">XML 和 HTML 的区别</h3>
+<p>XML 和HTML 虽然都是标记语言，但是两者之间没有任何的关系。</p>
+<ul>
+<li>HTML 被设计用来描述网页上的<strong>内容</strong>，是网页内容的载体</li>
+<li>XML 被设计用来<strong>传输和存储数据</strong>，是数据的载体</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://shumild.github.io/post-images/1643807755806.png" alt="" loading="lazy"></figure>
+<h3 id="xml-的缺点">XML 的缺点</h3>
+<ol>
+<li>XML 格式臃肿，和数据无关的代码多，体积大，传输效率低。</li>
+<li>在 JavaScript 中解析 XML 比较麻烦</li>
+</ol>
+<h2 id="json">JSON</h2>
+<h3 id="什么是-json">什么是 JSON</h3>
+<p>JSON 的英文全称是<strong>J</strong>ava<strong>S</strong>cript <strong>O</strong>bject <strong>N</strong>otation，即“ JavaScript 对象表示法”。简单来讲，JSON 就是 <strong>JavaScript 对象和数组的字符串表示法</strong>，它使用文本表示一个 JS 对象或数组的信息，因此，<strong>JSON 的本质是字符串</strong>。</p>
+<p>作用：JSON 是一种<strong>轻量级的文本数据交换格式</strong>，在作用上类似于 XML，专门用于<strong>存储和传输数据</strong>，但是JSON 比XML <strong>更小、更快、更易解析</strong>。</p>
+<p>现状：JSON 是在2001年开始被推广和使用的数据格式，距今为止，JSON 已经成为了<strong>主流的数据交换格式</strong>。</p>
+<h3 id="json-的两种结构">JSON 的两种结构</h3>
+<p>JSON 就是用字符串表示 JavaScript 的对象和数组。</p>
+<p>JSON 中包含<strong>对象</strong>和<strong>数组</strong>两种结构，通过这两种结构<strong>互相嵌套</strong>，可表示各种复杂的数据结构。</p>
+<p><strong>对象结构</strong>：对象结构在 JSON 中表示 <code>{}</code> 括起来的内容。数据结构为 <code>{ key:value,key:value,...}</code> 的键值对结构。其中，key 必须是使用<strong>英文的双引号包裹</strong>的字符串，value 的数据类型可以是<strong>数字、字符串、布尔值、null、数组、对象</strong>这6种类型。</p>
+<p><strong>数组结构</strong>：数组结构在 JSON 中表示为 <code>[]</code> 括起来的内容。数据结构为 <code>[&quot;java&quot;,&quot;javascript&quot;,30,true ...]</code>。数组中数据的类型可以是<strong>数字、字符串、布尔值、null、数组、对象</strong>这6种类型。</p>
+<h3 id="json-语法注意事项">JSON 语法注意事项</h3>
+<ol>
+<li>属性名必须使用双引号包裹。</li>
+<li>字符串类型的值必须使用双引号包裹。</li>
+<li>JSON 中不允许使用单引号表示字符串。</li>
+<li>JSON 中不能写注释。</li>
+<li>JSON 的最外层必须是对象或数组格式。</li>
+<li>不能使用 undefined 或函数作为 JSON 的值。</li>
+</ol>
+<h3 id="json-和-js-对象的关系">JSON 和 JS 对象的关系</h3>
+<p>JSON 是 JS 对象的字符串表示法，它使用文本表示一个 JS 对象的信息，本质是一个字符串。例如：</p>
+<pre><code class="language-javascript">//这是一个对象
+var obj = {a: 'Hello',b: 'World'}
+
+//这是一个 JSON 字符串，本质是一个字符串
+var json = '{&quot;a&quot;:&quot;Hello&quot;,&quot;b&quot;:&quot;World&quot;}'
+</code></pre>
+<h3 id="json-和-js-对象的互转">JSON 和 JS 对象的互转</h3>
+<p>要实现从 JSON 字符串转换为 JS 对象，使用 <code>JSON.parse()</code> 方法：</p>
+<pre><code class="language-javascript">var obj = JSON.parse('{&quot;a&quot;:&quot;Hello&quot;,&quot;b&quot;:&quot;World&quot;}')
+//结果是{a:'Hello',b: 'World'}
+</code></pre>
+<h3 id="序列化和反序列化">序列化和反序列化</h3>
+<p>把<strong>数据对象</strong>转换为<strong>字符串</strong>的过程，叫做<strong>序列化</strong>，例如：</p>
+<p>​								调用 <code>JSON.stringify()</code> 函数的操作，叫做 JSON 序列化。</p>
+<p>把<strong>字符串</strong>转换为<strong>数据对象</strong>的过程，叫做<strong>反序列化</strong>，例如：</p>
+<p>​								调用 <code>JSON.parse()</code> 函数的操作，叫做 JSON 反序列化。</p>
+<h1 id="封装自己的-ajax-函数">封装自己的 Ajax 函数</h1>
+<h2 id="要实现的效果">要实现的效果</h2>
+<pre><code class="language-html">&lt;!-- 1. 导入自定义的Ajax函数库 --&gt;
+&lt;script src=&quot;./myAjax.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+	//2. 调用自定义的 myAjax 函数，发起 Ajax 数据请求
+    myAjax({
+        method:'请求类型',
+        url:'请求地址',
+        data:{/* 请求参数对象 */},
+        success:function(res){ // 成功的回调函数
+            console.log(res)   // 打印数据
+        }
+    })
+&lt;/script&gt;
+</code></pre>
+<h2 id="定义-options-参数选项">定义 options 参数选项</h2>
+<p><code>myAjax()</code> 函数是我们自定义的 Ajax 函数，它接收一个配置对象作为参数，配置对象中可以配置如下属性：</p>
+<ul>
+<li>method	请求类型</li>
+<li>url            请求的 URL 地址</li>
+<li>data         请求携带的数据</li>
+<li>success    请求成功之后的回调函数</li>
+</ul>
+<h2 id="处理-data-参数">处理 data 参数</h2>
+<p>需要把 data 对象，转化为查询字符串的格式，从而提交给服务器，因此提前定义 resolveData 函数如下：</p>
+<pre><code class="language-javascript">/**
+*	处理 data 参数
+*	@param {data} 需要发送到服务器的数据
+*	@returns {string} 返回拼接好的查询字符串 name=zs&amp;age=10
+*/
+function resolveData(data){
+    var arr = []
+    for(let k in data){
+        arr.push(k + '=' + data[k])
+    }
+    return arr.join('&amp;')
+}
+</code></pre>
+<h2 id="定义-myajax-函数">定义 myAjax 函数</h2>
+<p>在 <code>myAjax()</code> 函数中，需要创建 xhr 对象，并监听 onreadystatechange 事件：</p>
+<pre><code class="language-javascript">function myAjax(options){
+    var xhr = new XMLHttpRequest()
+    //拼接查询字符串
+    var qs = resolveData(options.data)
+    
+    //监听请求状态改变的事件
+    xhr.onreadystatechange = function(){
+    	if(xhr.readyState === 4 &amp;&amp; xhr.status === 200){
+        	var result = JSON.parse(xhr.respnseText)
+        	options.success(result)
+    	}
+	}
+}
+</code></pre>
+<h2 id="判断请求的类型">判断请求的类型</h2>
+<p>不同的请求类型，对应 xhr 对象的不同操作，因此需要对请求类型进行判断：</p>
+<pre><code class="language-javascript">if(options.method.toUpperCase() === 'GET'){
+    // 发起 GET 请求
+    xhr.open(options.method,options.url + '?' + qs )
+    xhr.send()
+}else if(options.method.toUpperCase() === 'POST'){
+    // 发起 POST 请求
+    xhr.open(options.method,options.url)
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+    xhr.send(qs)
+}
+</code></pre>
+<h1 id="xmlhttprequest-level2-的新特性">XMLHttpRequest Level2 的新特性</h1>
+<h2 id="认识-xmlhttprequest-level2">认识 XMLHttpRequest Level2</h2>
+<h3 id="旧版-xmlhttprequest-level2-的缺点">旧版 XMLHttpRequest Level2 的缺点</h3>
+<ol>
+<li>只支持文本数据的传输，无法用来读取和上传文件。</li>
+<li>传送和接收数据时，没有进度信息，只能提示有没有完成。</li>
+</ol>
+<h3 id="xmlhttprequest-level2-的新功能">XMLHttpRequest Level2 的新功能</h3>
+<ol>
+<li>可以设置 HTTP 请求的时限。</li>
+<li>可以使用 FormData 对象管理表单数据。</li>
+<li>可以上传文件。</li>
+<li>可以获得数据传输的进度信息。</li>
+</ol>
+<h2 id="设置-http-请求时限">设置 HTTP 请求时限</h2>
+<p>有时，Ajax 操作很耗时，而且无法预知要花多少时间。如果网速很慢，用户可能要等很久。新版本的 XMLHttpRequest 对象，增加了 timeout 属性，可以设置 HTTP 请求的时限：</p>
+<pre><code class="language-javascript">xhr.timeout = 3000
+</code></pre>
+<p>上面的语句，将最长等待事件设置为 3000 毫秒。过了这个时限，就自动停止 HTTP 请求。与之配套的还有一个 timeout 事件，用来指定回调函数：</p>
+<pre><code class="language-javascript">xhr.ontimeout = function(event){
+    alert('请求超时！')
+}
+</code></pre>
+<h2 id="formdata-对象管理表单数据">FormData 对象管理表单数据</h2>
+<p>Ajax 操作往往用来 提交表单数据。为了方便表单处理，HTML5 新增了一个 FormData 对象，可以模拟表单操作：</p>
+<pre><code class="language-javascript">//1. 新建 FormData 对象
+var fd = new FormData()
+//2. 为 FormData 添加表单项
+fd.append('uname','zs')
+fd.append('upwd','123456')
+//3. 创建 XHR 对象
+var xhr = new XMLHttpRequest()
+//4. 指定请求类型与 URL 地址
+xhr.open('POST','http://www.liulongbin.top:3006/api/formdata')
+//5. 直接提交 FormData 对象，这与提交网页表单的效果，完全一样
+xhr.send(fd)
+</code></pre>
+<p>FormData 对象也可以用来获取表单的值，示例：</p>
+<pre><code class="language-javascript">// 获取表单元素
+var form = document.querySelector('#form1')
+// 监听表单元素的 submit 事件
+form.addEventListener('submit',function(e){
+    e.preventDefault()
+    // 根据 form 表单创建 FormData 对象，会自动将表单数据填充到 FormData 对象中
+    var fd = new FormData(form)
+    var xhr = new XMLHttpRequest()
+    xhr.open('POST','http://www.liulongbin.top:3006/api/formdata')
+    xhr.send(fd)
+    xhr.onreadystatechange = function(){}
+})
+</code></pre>
+<h2 id="上传文件">上传文件</h2>
+<p>新版 XMLHttpRequest 对象，不仅可以发送文本信息，还可以上传文件。</p>
+<p>步骤：</p>
+<ol>
+<li>定义 UI 结构。</li>
+<li>验证是否选择了文件。</li>
+<li>向 FormData 中追加文件。</li>
+<li>使用 xhr 发起上传文件的请求。</li>
+<li>监听 onreadystatechange 事件。</li>
+</ol>
+<h3 id="定义-ui-结构">定义 UI 结构</h3>
+<pre><code class="language-html">&lt;!-- 1. 文件选择框 --&gt;
+&lt;input type = &quot;flie&quot; id = &quot;file1&quot;&gt;
+&lt;!-- 2. 上传按钮 --&gt;
+&lt;button id = &quot;btnUpload&quot;&gt;上传文件&lt;/button&gt;
+&lt;br/&gt;
+&lt;!-- 3. 显示上传到服务器的上的图片 --&gt;
+&lt;img src = &quot;&quot; alt = &quot;&quot; id = &quot;img&quot; width = &quot;800&quot; /&gt;
+</code></pre>
+<h3 id="验证是否选择了文件">验证是否选择了文件</h3>
+<pre><code class="language-javascript">// 1. 获取上传文件的按钮
+var btnUpload = document.querySelector('#btnUpload')
+// 2. 为添加 click 事件监听
+btnUpload.addEventListener('click',function(){
+    // 3. 获取到选择的文件列表
+    var files = document.querySelector('#file1').files
+    if(files.length &lt;= 0){
+        return alert('请选择要上传的文件！')
+    }
+    // ...后续业务逻辑
+})
+</code></pre>
+<h3 id="向-formdata-中追加文件">向 FormData 中追加文件</h3>
+<pre><code class="language-javascript">// 1. 创建 FormData 对象
+var fd = new FormData()
+// 2. 向 FormData 中追加文件
+fd.append('avatar',files[0])
+</code></pre>
+<h3 id="使用-xhr-发起上传文件请求">使用 xhr 发起上传文件请求</h3>
+<pre><code class="language-javascript">// 1. 创建 xhr 对象
+var xhr = new XMLHttpRequest()
+// 2. 调用 open 函数，指定请求类型与 URL 地址。其中，请求类型必须为 POST
+xhr.open('POST','http://www.liulingbin.top:3006/api/upload/avatar')
+// 3. 发起请求
+xhr.send(fd)
+</code></pre>
+<h3 id="监听-onreadystatechange-事件">监听 onreadystatechange 事件</h3>
+<pre><code class="language-javascript">xhr.onreadystatechange = function(){
+    if(xhr.readyState === 4 &amp;&amp; xhr.status === 200){
+        var data = JSON.parse(xhr.responseText)
+        if(data.status === 200){ // 上传文件成功
+            // 将服务器返回的图片地址，设置为 &lt;img&gt; 标签的 src 属性
+            document.querySelector('#img').src = 'http:www.liulingbin.top:3006' + data.url
+        }else{ // 上传文件失败
+        	console.log(data.message)
+        }
+    }
+}
+</code></pre>
+<h2 id="显示文件上传进度">显示文件上传进度</h2>
+<p>新版本的 XMLHttpRequest 对象中，可以通过监听 xhr.upload.onprogress 事件，来获取到文件的上传进度。</p>
+<p>语法格式如下：</p>
+<pre><code class="language-javascript">// 创建 XHR 对象
+var xhr = new XMLHttpRequest()
+// 监听 xhr.upload 的 onprogress 事件
+xhr.upload.onprogress = function(e){
+    // e.lengthComputable 是一个布尔值，表示当前上传的资源是否具有可计算的长度
+    if(e.lengthComputable){
+        // e.loaded 已传输的字节
+        // e.total  需传输的总字节
+        var percentComplete = Math.ceil((e.loaded / e.total) * 100)
+    }
+}
+</code></pre>
+<h3 id="进度条美化">进度条美化</h3>
+<p>使用 Bootstrap 的库或其他的库进行美化进度条</p>
+<h3 id="监听上传进度的事件">监听上传进度的事件</h3>
+<pre><code class="language-javascript">xhr.upload.onprogress = function(e){
+    if(e.lengthComputable){
+        // 1. 计算出当前上传进度的百分比
+        var percentComplete = Math.ceil((e.load / e.total) * 100)
+        $('#percent')
+        	// 2. 设置进度条的宽度
+        	.attr('style','width:' + percentComplete + '%')
+        	// 3. 显示当前的上传进度百分比
+        	.html(percentComplete + '%')
+    }
+}
+</code></pre>
+<h3 id="监听上传完成的事件">监听上传完成的事件</h3>
+<pre><code class="language-javascript">xhr.upload.onload = function(){
+    $('#percent')
+    	// 移除上传中的类样式
+    	.removeClass()
+    	// 添加上传完成的类样式
+    	.addClass('progress-bar progress-bar-success')
+}
+</code></pre>
+<h1 id="jquery-高级用法">jQuery 高级用法</h1>
+<h2 id="jquery-实现文件上传">jQuery 实现文件上传</h2>
+<h3 id="定义-ui-结构-2">定义 UI 结构</h3>
+<pre><code class="language-html">&lt;!-- 导入 jQuery --&gt;
+&lt;script src=&quot;./jquery.js&quot;&gt;&lt;/script&gt;
+&lt;!-- 文件选择框 --&gt;
+&lt;input type = &quot;file&quot; id = &quot;file1&quot; /&gt;
+&lt;!-- 上传文件按钮 --&gt;
+&lt;button id = &quot;btnUpload&quot;&gt;上传&lt;/button&gt;
+</code></pre>
+<h3 id="验证是否选择了文件-2">验证是否选择了文件</h3>
+<pre><code class="language-javascript">$('#btnUpload').on('click',function(){
+    // 1. 将 jQuery 对象转化为 DOM 对象，并获取选中的文件列表
+    var files = $('#file1')[0].files
+    // 2. 判断是否选择了文件
+    if(files.length &lt;= 0){
+        return alert('请选择图片后再上传！')
+    }
+})
+</code></pre>
+<h3 id="向-formdata-中追加文件-2">向 FormData 中追加文件</h3>
+<pre><code class="language-javascript">// 向 FormData 中追加文件
+var fd = new FormData()
+fd.append('avatar',files[0])
+</code></pre>
+<h3 id="使用-jquery-发起上传文件的请求">使用 jQuery 发起上传文件的请求</h3>
+<pre><code class="language-javascript">$.ajax({
+    method:'POST',
+    url:'http://www.liulongbin.top:3006/api/upload/avatar',
+    data:fd,
+    // 不修改 Content-Type 属性，使用 FormData 默认的 Content-Type 值
+    contentType:false,
+    // 不对 FormData 中的数据进行 url 编码，而是将 FormData 数据原样发送到服务器
+    processData:fales,
+    success:function(res){
+        console.log(res)
+    }
+})
+</code></pre>
+<h2 id="jquery-实现-loading-效果">jQuery 实现 loading 效果</h2>
+<h3 id="ajaxstartcallback">ajaxStart（callback）</h3>
+<p>Ajax 请求<strong>开始</strong>时，执行ajaxStart 函数。可以在 ajaxStart 的 callback 中显示 loading 效果，示例：</p>
+<pre><code class="language-javascript">//自 jQuery 版本 1.8 起，该方法只能被附加到文档
+$(document).ajaxStart(function(){
+    $('#loading').show()
+})
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：<code>$(document).ajaxStart()</code> 函数会监听当前文档内所有的 Ajax 请求</p>
+</blockquote>
+<h3 id="ajaxstopcallback">ajaxStop（callback）</h3>
+<p>Ajax 请求<strong>结束</strong>时，执行 ajaxStop 函数。可以在 ajaxStop 的 callback 中隐藏 loading 效果，示例：</p>
+<pre><code class="language-javascript">//自 jQuery 版本 1.8 起，该方法只能被附加到文档
+$(document).ajaxStop(function(){
+    $('#loading').hide()
+})
+</code></pre>
+<h1 id="axios">axios</h1>
+<h2 id="什么是-axios">什么是 axios</h2>
+<p>Axios 是专注于<strong>网络数据请求</strong>的库。</p>
+<p>相比于原生的 XMLHttpRequest 对象，axios <strong>简单易用</strong>。</p>
+<p>相比于 jQuery，axios 更加<strong>轻量化</strong>，只专注于网络数据请求。</p>
+<h2 id="axios-发起-get-请求">axios 发起 GET 请求</h2>
+<p>语法：</p>
+<pre><code class="language-javascript">axios.get('url',{params:{ /*参数*/ }}).then(callback)
+</code></pre>
+<p>具体的请求示例如下：</p>
+<pre><code class="language-javascript">// 请求的 URL 地址
+var url = 'http://www.liulongbin.top:3006/api/get'
+// 请求的参数对象
+var paramsObj = { name: 'zs', age: 20}
+// 调用 axios.get() 发起 GET 请求
+axios.get(url,{ params: paramsObj }).then(function(res){
+    // res.data 是服务器返回的数据
+    var result = res.data
+    console.log(result)
+})
+</code></pre>
+<h2 id="axios-发起-post-请求">axios 发起 POST 请求</h2>
+<p>axios 发起 post 请求的语法：</p>
+<pre><code class="language-javascript">axios.post('url',{ /*参数*/ }).then(callback)
+</code></pre>
+<p>具体的请求示例如下：</p>
+<pre><code class="language-javascript">// 请求的 URL 地址
+var url = 'http://www.liulongbin.top:3006/api/post'
+// 要提交到服务器的数据
+var dataObj = { name: 'zs', age: 20}
+// 调用 axios.post() 发起 POST 请求
+axios.get(url, dataObj).then(function(res){
+    // res.data 是服务器返回的数据
+    var result = res.data
+    console.log(result)
+})
+</code></pre>
+<h2 id="直接使用-axios-发起请求">直接使用 axios 发起请求</h2>
+<h3 id="直接使用-axios-发起-get-请求">直接使用 axios 发起 GET 请求</h3>
+<pre><code class="language-javascript">axios({
+    method: 'GET',
+    url: 'http://www.liulongbin.top:3006/api/get',
+    params: {// GET 参数要通过 params 属性提供
+    	name: 'zs',
+        age: 20
+    }
+}).then(function(res){
+    console.log(res.data)
+})
+</code></pre>
+<h3 id="直接使用-axios-发起-post-请求">直接使用 axios 发起 POST 请求</h3>
+<pre><code class="language-javascript">axios({
+    method: 'POST',
+    url: 'http://www.liulongbin.top:3006/api/post',
+    data: {// POST 参数要通过 data 属性提供
+    	name: 'zs',
+        age: 20
+    }
+}).then(function(res){
+    console.log(res.data)
+})
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#xmlhttprequest-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">XMLHttpRequest 的基本使用</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-xmlhttprequest">什么是 XMLHttpRequest</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8xhr%E5%8F%91%E8%B5%B7get%E8%AF%B7%E6%B1%82">使用xhr发起GET请求</a></li>
+<li><a href="#%E4%BA%86%E8%A7%A3xhr%E5%AF%B9%E8%B1%A1%E7%9A%84readystate%E5%B1%9E%E6%80%A7">了解xhr对象的readyState属性</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8xhr%E5%8F%91%E8%B5%B7%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84get%E8%AF%B7%E6%B1%82">使用xhr发起带参数的GET请求</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%AD%97%E7%AC%A6%E4%B8%B2">查询字符串</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9F%A5%E8%AF%A2%E5%AD%97%E7%AC%A6%E4%B8%B2">什么是查询字符串</a></li>
+<li><a href="#get%E8%AF%B7%E6%B1%82%E6%90%BA%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E6%9C%AC%E8%B4%A8">GET请求携带参数的本质</a></li>
+</ul>
+</li>
+<li><a href="#url%E7%BC%96%E7%A0%81%E4%B8%8E%E8%A7%A3%E7%A0%81">URL编码与解码</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFurl%E7%BC%96%E7%A0%81">什么是URL编码</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%AF%B9url%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A0%81%E4%B8%8E%E8%A7%A3%E7%A0%81">如何对URL进行编码与解码</a></li>
+<li><a href="#url%E7%BC%96%E7%A0%81%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">URL编码的注意事项</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BD%BF%E7%94%A8xhr%E5%8F%91%E8%B5%B7post%E8%AF%B7%E6%B1%82">使用xhr发起POST请求</a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E6%A0%BC%E5%BC%8F">数据交换格式</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E6%A0%BC%E5%BC%8F">什么是数据交换格式</a></li>
+<li><a href="#xml">XML</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-xml">什么是 XML</a></li>
+<li><a href="#xml-%E5%92%8C-html-%E7%9A%84%E5%8C%BA%E5%88%AB">XML 和 HTML 的区别</a></li>
+<li><a href="#xml-%E7%9A%84%E7%BC%BA%E7%82%B9">XML 的缺点</a></li>
+</ul>
+</li>
+<li><a href="#json">JSON</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-json">什么是 JSON</a></li>
+<li><a href="#json-%E7%9A%84%E4%B8%A4%E7%A7%8D%E7%BB%93%E6%9E%84">JSON 的两种结构</a></li>
+<li><a href="#json-%E8%AF%AD%E6%B3%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">JSON 语法注意事项</a></li>
+<li><a href="#json-%E5%92%8C-js-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%85%B3%E7%B3%BB">JSON 和 JS 对象的关系</a></li>
+<li><a href="#json-%E5%92%8C-js-%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%BA%92%E8%BD%AC">JSON 和 JS 对象的互转</a></li>
+<li><a href="#%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">序列化和反序列化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%B0%81%E8%A3%85%E8%87%AA%E5%B7%B1%E7%9A%84-ajax-%E5%87%BD%E6%95%B0">封装自己的 Ajax 函数</a>
+<ul>
+<li><a href="#%E8%A6%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%95%88%E6%9E%9C">要实现的效果</a></li>
+<li><a href="#%E5%AE%9A%E4%B9%89-options-%E5%8F%82%E6%95%B0%E9%80%89%E9%A1%B9">定义 options 参数选项</a></li>
+<li><a href="#%E5%A4%84%E7%90%86-data-%E5%8F%82%E6%95%B0">处理 data 参数</a></li>
+<li><a href="#%E5%AE%9A%E4%B9%89-myajax-%E5%87%BD%E6%95%B0">定义 myAjax 函数</a></li>
+<li><a href="#%E5%88%A4%E6%96%AD%E8%AF%B7%E6%B1%82%E7%9A%84%E7%B1%BB%E5%9E%8B">判断请求的类型</a></li>
+</ul>
+</li>
+<li><a href="#xmlhttprequest-level2-%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7">XMLHttpRequest Level2 的新特性</a>
+<ul>
+<li><a href="#%E8%AE%A4%E8%AF%86-xmlhttprequest-level2">认识 XMLHttpRequest Level2</a>
+<ul>
+<li><a href="#%E6%97%A7%E7%89%88-xmlhttprequest-level2-%E7%9A%84%E7%BC%BA%E7%82%B9">旧版 XMLHttpRequest Level2 的缺点</a></li>
+<li><a href="#xmlhttprequest-level2-%E7%9A%84%E6%96%B0%E5%8A%9F%E8%83%BD">XMLHttpRequest Level2 的新功能</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AE%BE%E7%BD%AE-http-%E8%AF%B7%E6%B1%82%E6%97%B6%E9%99%90">设置 HTTP 请求时限</a></li>
+<li><a href="#formdata-%E5%AF%B9%E8%B1%A1%E7%AE%A1%E7%90%86%E8%A1%A8%E5%8D%95%E6%95%B0%E6%8D%AE">FormData 对象管理表单数据</a></li>
+<li><a href="#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6">上传文件</a>
+<ul>
+<li><a href="#%E5%AE%9A%E4%B9%89-ui-%E7%BB%93%E6%9E%84">定义 UI 结构</a></li>
+<li><a href="#%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E9%80%89%E6%8B%A9%E4%BA%86%E6%96%87%E4%BB%B6">验证是否选择了文件</a></li>
+<li><a href="#%E5%90%91-formdata-%E4%B8%AD%E8%BF%BD%E5%8A%A0%E6%96%87%E4%BB%B6">向 FormData 中追加文件</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8-xhr-%E5%8F%91%E8%B5%B7%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E8%AF%B7%E6%B1%82">使用 xhr 发起上传文件请求</a></li>
+<li><a href="#%E7%9B%91%E5%90%AC-onreadystatechange-%E4%BA%8B%E4%BB%B6">监听 onreadystatechange 事件</a></li>
+</ul>
+</li>
+<li><a href="#%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E8%BF%9B%E5%BA%A6">显示文件上传进度</a>
+<ul>
+<li><a href="#%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%BE%8E%E5%8C%96">进度条美化</a></li>
+<li><a href="#%E7%9B%91%E5%90%AC%E4%B8%8A%E4%BC%A0%E8%BF%9B%E5%BA%A6%E7%9A%84%E4%BA%8B%E4%BB%B6">监听上传进度的事件</a></li>
+<li><a href="#%E7%9B%91%E5%90%AC%E4%B8%8A%E4%BC%A0%E5%AE%8C%E6%88%90%E7%9A%84%E4%BA%8B%E4%BB%B6">监听上传完成的事件</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#jquery-%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95">jQuery 高级用法</a>
+<ul>
+<li><a href="#jquery-%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">jQuery 实现文件上传</a>
+<ul>
+<li><a href="#%E5%AE%9A%E4%B9%89-ui-%E7%BB%93%E6%9E%84-2">定义 UI 结构</a></li>
+<li><a href="#%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E9%80%89%E6%8B%A9%E4%BA%86%E6%96%87%E4%BB%B6-2">验证是否选择了文件</a></li>
+<li><a href="#%E5%90%91-formdata-%E4%B8%AD%E8%BF%BD%E5%8A%A0%E6%96%87%E4%BB%B6-2">向 FormData 中追加文件</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8-jquery-%E5%8F%91%E8%B5%B7%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%B7%E6%B1%82">使用 jQuery 发起上传文件的请求</a></li>
+</ul>
+</li>
+<li><a href="#jquery-%E5%AE%9E%E7%8E%B0-loading-%E6%95%88%E6%9E%9C">jQuery 实现 loading 效果</a>
+<ul>
+<li><a href="#ajaxstartcallback">ajaxStart（callback）</a></li>
+<li><a href="#ajaxstopcallback">ajaxStop（callback）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#axios">axios</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-axios">什么是 axios</a></li>
+<li><a href="#axios-%E5%8F%91%E8%B5%B7-get-%E8%AF%B7%E6%B1%82">axios 发起 GET 请求</a></li>
+<li><a href="#axios-%E5%8F%91%E8%B5%B7-post-%E8%AF%B7%E6%B1%82">axios 发起 POST 请求</a></li>
+<li><a href="#%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8-axios-%E5%8F%91%E8%B5%B7%E8%AF%B7%E6%B1%82">直接使用 axios 发起请求</a>
+<ul>
+<li><a href="#%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8-axios-%E5%8F%91%E8%B5%B7-get-%E8%AF%B7%E6%B1%82">直接使用 axios 发起 GET 请求</a></li>
+<li><a href="#%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8-axios-%E5%8F%91%E8%B5%B7-post-%E8%AF%B7%E6%B1%82">直接使用 axios 发起 POST 请求</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://shumild.github.io/post/form-biao-dan-he-mo-ban-yin-qing/">
+              <h3 class="post-title">
+                form表单和模板引擎
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">shumild</a>
+  <a class="rss" href="https://shumild.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
